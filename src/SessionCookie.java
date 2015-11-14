@@ -8,6 +8,6 @@
 public class SessionCookie {
 
     public boolean hasTimedOut() {
-
+        return false;
     }
 }
