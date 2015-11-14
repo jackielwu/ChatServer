@@ -5,5 +5,5 @@
  * @author Jackie Wu, wu891@purdue.edu, 821
  * @version November 14, 2015
  */
-public class Server {
+public class ChatServer {
 }
