@@ -11,7 +11,7 @@ public class SessionCookie {
     public SessionCookie(long id) {
         this.id = id;
     }
-    public static int timeoutlength
+    public static int timeoutlength;
 
     public boolean hasTimedOut() {
         return false;

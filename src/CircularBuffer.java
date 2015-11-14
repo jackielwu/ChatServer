@@ -30,6 +30,7 @@ public class CircularBuffer {
     }
 
     public String[] getNewest(int numMessages) {
+        return null;
 
     }
 
