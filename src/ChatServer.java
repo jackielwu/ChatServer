@@ -96,7 +96,12 @@ public class ChatServer {
      * @return the server response
      */
     public String parseRequest(String request) {
-        // TODO: Replace the following code with the actual code
+
+        String[] args = request.split("\t");
+
+
+
+
         return request;
     }
 

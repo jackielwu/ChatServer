@@ -30,8 +30,23 @@ public class CircularBuffer {
     }
 
     public String[] getNewest(int numMessages) {
-        return null;
+        String[] output = new String[numMessages];
 
+        if (numMessages < 0) return null;
+        if (numMessages == 0) return new String[0];
+
+        if (current < numMessages) {
+            output = new String[current];
+            for (int i = current - numMessages; i < current + numMessages; i++) {
+                output[i] = buffer[i];
+            }
+            return output;
+        } else {
+            //Math.min(current, numMessages)
+
+        }
+
+        return output;
     }
 
 
