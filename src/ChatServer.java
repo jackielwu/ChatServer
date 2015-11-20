@@ -99,10 +99,12 @@ public class ChatServer {
 
         String[] args = request.split("\t");
 
+        if (args[0].equals("ADD-USER")) return addUser(args);
+        if (args[0].equals("USER-LOGIN")) return userLogin(args);
+        if (args[0].equals("POST-MESSAGE")) return postMessage(args, args[1]);
+        if (args[0].equals("GET-MESSAGES")) return getMessages(args);
 
-
-
-        return request;
+        return SUCCESS;
     }
 
     public String addUser(String[] args) {
@@ -129,11 +131,20 @@ public class ChatServer {
     }
 
     public String userLogin(String[] args) {
-        return "";
+        return SUCCESS;
     }
 
     public String postMessage(String[] args, String name) {
-        return "";
+        //TODO: Post message to the chat server
+
+        //CircularBuffer.put()
+
+
+        return SUCCESS;
+    }
+
+    public String getMessages(String[] args) {
+        return SUCCESS;
     }
 
 }
