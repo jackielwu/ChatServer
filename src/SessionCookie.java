@@ -9,6 +9,9 @@ public class SessionCookie {
     private long id;
     private long initialTime;
 
+    public SessionCookie() {
+        this.id = 0000 + (int) (Math.random() * 9999);
+    }
     public SessionCookie(long id) {
         this.id = id;
         initialTime = System.currentTimeMillis();

@@ -7,18 +7,19 @@ import java.util.regex.Pattern;
  *
  * This is a private chat server for you and your friends to communicate.
  *
- * @author Jackie Wu, wu891@purdue.edu
- * @lab 821
+ * @author Jackie Wu, wu891@purdue.edu, 821
  * @version November 14, 2015
  */
 public class ChatServer {
     private User[] users;
+    private int totalUsers;
     private int maxMessages;
     public final String SUCCESS = "SUCCESS\r\n";
 
     public ChatServer(User[] users, int maxMessages) {
         this.users = users;
         this.maxMessages = maxMessages;
+        this.totalUsers = 0;
     }
 
     /**
@@ -46,7 +47,7 @@ public class ChatServer {
                 continue;
             }
 
-            String response = null;
+            String response;
             try {
                 response = parseRequest(command);
             } catch (Exception ex) {
@@ -106,12 +107,13 @@ public class ChatServer {
 
         return SUCCESS;
     }
-
+    //TODO: Check user existance
     public String addUser(String[] args) {
         if (args[1].matches("^.*[a-zA-Z0-9].*$") && args[1].length() >= 1 &&
                 args[1].length() <= 20) {
             if (args[2].matches("^.*[a-zA-Z0-9].*$") && args[2].length() >= 4
                     && args[2].length() <= 40) {
+                users[totalUsers] = new User(args[1], args[2], null);
                 return SUCCESS;
             }
             else {
@@ -131,7 +133,34 @@ public class ChatServer {
     }
 
     public String userLogin(String[] args) {
-        return SUCCESS;
+        int index = 0;
+        boolean authError = false;
+        boolean usrConError = false;
+        for (User u: users) {
+            if (u.getName().equals(args[0])) {
+                if (u.getCookie() == null) {
+                    if (u.checkPassword(args[1])) {
+                        u.setCookie(new SessionCookie());
+                        return String.format("SUCCESS\t%04d\r\n",u.getCookie().getID());
+                    }
+                    else {
+                        authError = true;
+                    }
+                }
+                else {
+                    usrConError = true;
+                }
+            }
+        }
+        if (authError) {
+            return MessageFactory.makeErrorMessage(21);
+        }
+        else if (usrConError) {
+            return MessageFactory.makeErrorMessage(25);
+        }
+        else {
+            return MessageFactory.makeErrorMessage(20);
+        }
     }
 
     public String postMessage(String[] args, String name) {
