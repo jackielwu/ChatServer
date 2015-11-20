@@ -100,13 +100,13 @@ public class ChatServer {
         // TODO: Replace the following code with the actual code
         return request;
     }
-
+    //TODO: Check user existance
     public String addUser(String[] args) {
         if (args[1].matches("^.*[a-zA-Z0-9].*$") && args[1].length() >= 1 &&
                 args[1].length() <= 20) {
             if (args[2].matches("^.*[a-zA-Z0-9].*$") && args[2].length() >= 4
                     && args[2].length() <= 40) {
-                users[totalUsers] = new User(args[1], args[2], new SessionCookie(Long.getLong(args[0])));
+                users[totalUsers] = new User(args[1], args[2], null);
                 return SUCCESS;
             }
             else {
@@ -126,7 +126,34 @@ public class ChatServer {
     }
 
     public String userLogin(String[] args) {
-        return "";
+        int index = 0;
+        boolean authError = false;
+        boolean usrConError = false;
+        for (User u: users) {
+            if (u.getName().equals(args[0])) {
+                if (u.getCookie() == null) {
+                    if (u.checkPassword(args[1])) {
+                        u.setCookie(new SessionCookie());
+                        return String.format("SUCCESS\t%04d\r\n",u.getCookie().getID());
+                    }
+                    else {
+                        authError = true;
+                    }
+                }
+                else {
+                    usrConError = true;
+                }
+            }
+        }
+        if (authError) {
+            return MessageFactory.makeErrorMessage(21);
+        }
+        else if (usrConError) {
+            return MessageFactory.makeErrorMessage(25);
+        }
+        else {
+            return MessageFactory.makeErrorMessage(20);
+        }
     }
 
     public String postMessage(String[] args, String name) {
