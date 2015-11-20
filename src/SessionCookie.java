@@ -7,18 +7,20 @@
  */
 public class SessionCookie {
     private long id;
+    private long initialTime;
 
     public SessionCookie(long id) {
         this.id = id;
+        initialTime = System.currentTimeMillis();
     }
-    public static int timeoutlength;
+    public static int timeoutlength = 300;
 
     public boolean hasTimedOut() {
-        return false;
+        return (initialTime - System.currentTimeMillis()) >= timeoutlength;
     }
 
     public void updateTimeOfActivity() {
-        System.currentTimeMillis();
+        initialTime = System.currentTimeMillis();
     }
 
     public long getID() {
