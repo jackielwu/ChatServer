@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 /**
  * <b> CS 180 - Project 4 - Chat Server Skeleton </b>
@@ -13,6 +14,7 @@ import java.util.Scanner;
 public class ChatServer {
     private User[] users;
     private int maxMessages;
+    public final String SUCCESS = "SUCCESS\r\n";
 
     public ChatServer(User[] users, int maxMessages) {
         this.users = users;
@@ -96,6 +98,37 @@ public class ChatServer {
     public String parseRequest(String request) {
         // TODO: Replace the following code with the actual code
         return request;
+    }
+
+    public String addUser(String[] args) {
+        if (args[1].matches("^.*[a-zA-Z0-9].*$") && args[1].length() >= 1 &&
+                args[1].length() <= 20) {
+            if (args[2].matches("^.*[a-zA-Z0-9].*$") && args[2].length() >= 4
+                    && args[2].length() <= 40) {
+                return SUCCESS;
+            }
+            else {
+                return MessageFactory.makeErrorMessage(24, "Passwords must be between 1" +
+                        " and 20 characters in length (inclusive) and can only contain" +
+                        "alphanumerical values " +
+                        "[A-Za-z0-9].");
+            }
+        }
+        else {
+            return MessageFactory.makeErrorMessage(24, "Usernames must be between 1" +
+                    " and 20 characters in length (inclusive) and can only contain" +
+                    "alphanumerical values " +
+                    "[A-Za-z0-9].");
+        }
+
+    }
+
+    public String userLogin(String[] args) {
+        return "";
+    }
+
+    public String postMessage(String[] args, String name) {
+        return "";
     }
 
 }
